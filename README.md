@@ -13,4 +13,4 @@ pip install -r requirements.txt
 ```
   python manage.py runserver
 ```
-##In case of bugs please contact me.
+## In case of bugs please contact me.

@@ -11,6 +11,6 @@ pip install -r requirements.txt
 ```
 ## Run:
 ```
-  python3 manage.py --noreload
+  python manage.py runserver
 ```
-In case of bugs please contact me.
+##In case of bugs please contact me.

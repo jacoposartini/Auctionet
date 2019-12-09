@@ -1,0 +1,92 @@
+{% extends "index_layout.html" %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-sm-4">
+    <div class="p-3 mb-2 ">
+      <img src="/media/{{auction_object.image}}/" alt="71JeDEZd4YL._SX425_.jpg" class="img-thumbnail mb-4">
+      <a type="button" class="btn btn-outline-secondary " href="/">Back</a>
+    </div>
+  </div>
+  <div class="col-sm-8">
+    <div class="p-3 mb-2 text-dark">
+      <h1>{{auction_object.name}}</h1>
+      <p class="text-left">{{auction_object.description}}</p>
+      <hr>
+      <h3><div class="badge badge-danger">{{auction_object.starting_price}} €</div>→<span id="current_price" class="badge badge-success"></span></h3>
+      <h5>Winner: <span id="winner" class="badge badge-success"></span></h5>
+
+        <div class="form-inline">
+          <div class="form-group mb-2">
+            <input id="offer" type="number" class="form-group form-control" id="validationServerUsername" placeholder="Offer">
+          </div>
+          <button type="button" class="btn btn-primary mb-2 ml-2" onclick="make_offer() ">Offer</button>
+
+          <h4><span id="timer" class="badge badge-danger ml-2 mt-2"></span></h4>
+
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+<script>
+
+  //**********************************************************************************************************************************
+  //              SOCKET
+  //**********************************************************************************************************************************
+  document.getElementById('current_price').innerHTML = "{{auction_object.current_price}} €";
+  document.getElementById("winner").innerHTML = "{{auction_object.winner}}";
+
+  let socket = new WebSocket('ws://'+location.host+'/ws/{{auction_object.id}}/', ['Token', "{{user.token}}"]);
+
+  socket.onmessage = function(event) {
+    var newOffer = JSON.parse(event.data);
+    console.log(newOffer.offer);
+    document.getElementById('current_price').innerHTML = newOffer.offer + " €";
+    document.getElementById("winner").innerHTML = newOffer.sender;
+  };
+
+  function make_offer() {
+    var offer = document.getElementById("offer").value;
+    var current_price = document.getElementById('current_price').innerHTML;
+    if (offer > current_price) {
+      socket.send(offer);
+    }
+  };
+
+
+  //**********************************************************************************************************************************
+  //              COUNTDOWN
+  //**********************************************************************************************************************************
+   var expiration_date ="{{auction_object.expiration_date|date:'m/d/Y H:i'}}";
+
+   var countDownDate = new Date(expiration_date).getTime();
+
+  var timer = setInterval(function() {
+
+    // Get today's date and time
+    var now = new Date().getTime();
+    // Find the distance between now and the count down date
+    var distance = countDownDate - now;
+    // Time calculations for days, hours, minutes and seconds
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    // Output the result in an element with id="demo"
+    document.getElementById("timer").innerHTML = days + "d " + hours + "h " +
+      minutes + "m " + seconds + "s ";
+    // If the count down is over, write some text
+    if (distance < 0) {
+      clearInterval(expiration_date);
+      document.getElementById("timer").innerHTML = "EXPIRED";
+    }
+  }, 1000);
+
+</script>
+
+
+{% endblock %}

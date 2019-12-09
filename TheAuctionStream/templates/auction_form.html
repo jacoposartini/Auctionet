@@ -1,0 +1,46 @@
+
+{% extends "index_layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<h1>Create an Auction</h1>
+<form method="post" enctype="multipart/form-data">{% csrf_token %}
+    {{ form.name|as_crispy_field }}
+    {{ form.description|as_crispy_field }}
+    {{ form.starting_price|as_crispy_field }}
+
+    <label>Product image:</label>
+    <div class="custom-file mb-3">
+      <input type="file" class="custom-file-input" id="image" name="image" required>
+      <label class="custom-file-label" for="image">Choose image</label>
+    </div>
+
+    <label for="expiration_date">Expiration Date: </label>
+    <input id="expiration_date" name="expiration_date" type="date" class="form-control" required>
+
+    <input class="btn btn-md btn-success mt-4" type="submit" value="Save">
+</form>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#

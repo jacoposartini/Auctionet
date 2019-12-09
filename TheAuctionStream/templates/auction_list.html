@@ -1,0 +1,32 @@
+{% extends "index_layout.html" %}
+
+{% block content %}
+
+<h1>Auctions</h1>
+
+<div class="row">
+
+{% for auction in auction_list %}
+  <div class="col-md-4">
+    <div class="card mb-4 shadow-sm">
+      <img src="/media/{{auction.image}}" alt="71JeDEZd4YL._SX425_.jpg" class="img-thumbnail" >
+      <div class="card-body">
+        <h1 class="card-title">{{auction.name}}</h1>
+        <p class="card-text">{{auction.description}}</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="btn-group">
+            <a  type="button" class="btn btn-sm btn-outline-secondary" href="/{{auction.id}}/">View</a>
+            </div>
+          <h3> <div class="badge badge-success">{{auction.current_price}}€</div></h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% empty %}
+    <li>No auctions yet.</li>
+{% endfor %}
+
+</div>
+
+{% endblock %}

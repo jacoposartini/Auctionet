@@ -10,6 +10,11 @@ pip install -r requirements.txt
   python3 manage.py migrate && python3 manage.py createsuperuser
 ```
 ## Run:
+You need to have a redis server on 127.0.0.1:6379
+```
+  redis-server
+```
+So now you can start the Django server!
 ```
   python manage.py runserver
 ```

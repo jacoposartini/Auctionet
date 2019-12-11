@@ -30,7 +30,3 @@ class Auction(Product):
 
 
 
-
-
-
-locals

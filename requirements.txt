@@ -4,5 +4,5 @@ Django==2.2
 django-allauth==0.39.1
 django-crispy-forms==1.7.2
 django-registration==3.0
-Pillow==6.0.0
+Pillow==9.0.1
 
